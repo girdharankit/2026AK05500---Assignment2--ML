@@ -10,7 +10,7 @@
 ## a. Problem statement
 
 Breast cancer is diagnosed by examining cells taken from a breast mass with a fine-needle
-aspirate (FNA). The goal of this project is to **predict whether a breast mass is Malignant
+aspirate (FNA). The goal of this assignment is to **predict whether a breast mass is Malignant
 (cancerous) or Benign** from 30 numeric measurements of the cell nuclei in the FNA image –
 a **binary classification** problem.
 
