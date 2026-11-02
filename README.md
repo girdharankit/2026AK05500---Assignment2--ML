@@ -1,87 +1,70 @@
-# 2026AK05500– Assignment 2 ML 
+# 2026AK05500- Assignment 2 ML
 
 **M.Tech (AIML), BITS Pilani WILP – Machine Learning, Assignment 2 - Ankit Girdhar (2026AK05500)**
 
-- **Live Streamlit app:** https://2026ak05500-app.streamlit.app/  
-- **GitHub repository:** https://github.com/girdharankit/2026AK05500---Assignment2--ML  
+- **Live Streamlit app:** https://2026ak05500-app.streamlit.app/
+- **GitHub repository:** https://github.com/girdharankit/2026AK05500---Assignment2--ML
 
 ---
 
 ## a. Problem statement
 
-Breast cancer is diagnosed by examining cells taken from a breast mass with a fine-needle
-aspirate (FNA). The goal of this project is to **predict whether a breast mass is Malignant
-(cancerous) or Benign** from 30 numeric measurements of the cell nuclei in the FNA image –
-a **binary classification** problem.
+In this assignment I have built a model to predict whether a breast tumour is **Malignant** (cancer) or **Benign** (not cancer). The prediction is made from 30 measurements of cell nuclei, which are taken from a digitised image of a fine needle aspirate (FNA) of the breast mass. Since there are only two possible outputs, this is a **binary classification** problem.
 
-Five classification models are trained on the same dataset, evaluated with six metrics
-(Accuracy, AUC, Precision, Recall, F1, MCC), compared, and deployed in an interactive
-Streamlit web application that evaluates the saved models on uploaded test data without
-retraining.
+I trained five different classification models on the same data, checked each of them using six evaluation metrics (Accuracy, AUC, Precision, Recall, F1 and MCC) and compared the results. After that I made a Streamlit web app where test data can be uploaded and the saved models are used to give the results. The app only loads the trained models, it does not train them again.
 
-Because a missed cancer (false negative) is far more costly than a false alarm, **Recall** on the
-Malignant class and the balanced **MCC** score are given extra weight when choosing the best model.
+For this problem I gave more importance to **Recall** for the malignant class and to **MCC**. The reason is that if a cancer case is predicted as benign (false negative), it is much more serious than a false alarm.
 
 ## b. Dataset description
 
 | Item | Detail |
 |---|---|
-| Name | Breast Cancer Wisconsin (Diagnostic) – WDBC |
-| Source | UCI Machine Learning Repository, dataset id 17 – <https://archive.ics.uci.edu/dataset/17/breast+cancer+wisconsin+diagnostic> |
-| Instances | **569** (requirement: ≥ 500) |
-| Features | **30** real-valued features (requirement: ≥ 12) – the `ID` column is dropped |
-| Target | `diagnosis` – **M = Malignant (1)**, **B = Benign (0)** |
-| Class balance | 357 Benign (62.7 %) / 212 Malignant (37.3 %) |
+| Name | Breast Cancer Wisconsin (Diagnostic) (WDBC) |
+| Source | UCI Machine Learning Repository, dataset id 17: https://archive.ics.uci.edu/dataset/17/breast+cancer+wisconsin+diagnostic |
+| Number of instances | **569** (assignment needs at least 500) |
+| Number of features | **30** numeric features (assignment needs at least 12). The ID column is not used. |
+| Target column | `diagnosis`: **M = Malignant (1)**, **B = Benign (0)** |
+| Class distribution | 357 Benign (62.7%) and 212 Malignant (37.3%) |
 | Missing values | None |
 
-**Features.** Ten characteristics are computed for each cell nucleus in the digitised image:
-radius, texture, perimeter, area, smoothness, compactness, concavity, concave points,
-symmetry and fractal dimension. For each image the **mean**, **standard error (`_se`)** and
-**worst** (mean of the three largest values) of every characteristic are recorded,
-giving 3 × 10 = 30 features (e.g. `radius_mean`, `radius_se`, `radius_worst`).
+**About the features.** For every cell nucleus in the image, 10 properties are measured: radius, texture, perimeter, area, smoothness, compactness, concavity, concave points, symmetry and fractal dimension. For each image the dataset gives the **mean**, the **standard error** (`_se`) and the **worst** value (average of the three largest values) of these 10 properties. So in total there are 10 x 3 = 30 features, for example `radius_mean`, `radius_se` and `radius_worst`.
 
-**Loading strategy (online first, offline fallback)** – implemented in `data_utils.py`:
-1. UCI ML Repository through the `ucimlrepo` package (`fetch_ucirepo(id=17)`)
-2. Raw `wdbc.data` file from the UCI archive URL
-3. Local copy `data/wdbc.csv` (refreshed automatically after every successful online load)
-4. scikit-learn's bundled copy of the same UCI dataset (`load_breast_cancer`)
+**How the data is loaded** (code in `data_utils.py`). The script first tries to download the data online and if that is not possible it uses a local copy:
+1. From the UCI repository using the `ucimlrepo` package (`fetch_ucirepo(id=17)`)
+2. From the raw `wdbc.data` file on the UCI website
+3. From the local file `data/wdbc.csv` (this file gets updated every time the online download works)
+4. From the copy of the same dataset that comes with scikit-learn (`load_breast_cancer`)
 
-**Pre-processing.** Stratified 80/20 train-test split (`random_state = 42`) → 455 training rows,
-114 test rows (saved as `test_data.csv`). Features are standardised with `StandardScaler` inside
-each model's pipeline for scale-sensitive models (Logistic Regression, KNN, SVM). Hyper-parameters
-were tuned with 5-fold stratified `GridSearchCV` (scoring = F1) on the **training data only**.
+**Pre-processing.** I split the data into 80% training and 20% testing using a stratified split (`random_state = 42`), so the class ratio stays the same in both parts. This gave 455 rows for training and 114 rows for testing. The test rows are saved as `test_data.csv`. For Logistic Regression, KNN and SVM I used `StandardScaler` inside the pipeline, because these models depend on the scale of the features. Hyper-parameters for every model were selected with 5-fold stratified `GridSearchCV` (scoring = F1) using **only the training data**.
 
 ## c. GitHub repository link
 
-https://github.com/girdharankit/2026AK05500---Assignment2--ML   
+https://github.com/girdharankit/2026AK05500---Assignment2--ML
 
 ```
-project-folder/
-│-- app.py                    # Streamlit application
-│-- train_models.py           # trains, tunes, evaluates and saves the 5 models
-│-- data_utils.py             # dataset loading (UCI online → local copy) & helpers
-│-- ML_Assignment2_Colab.ipynb  # notebook to run training in Google Colab / Jupyter
-│-- requirements.txt
-│-- README.md
-│-- test_data.csv             # 20 % hold-out test set (30 features + diagnosis)
-│-- data/wdbc.csv             # local copy of the full dataset (offline fallback)
-│-- model/                    # saved trained models
-│   ├── logistic_regression.pkl
-│   ├── decision_tree.pkl
-│   ├── knn.pkl
-│   ├── naive_bayes.pkl
-│   ├── svm.pkl
-│   └── metadata.json         # feature list, best hyper-parameters, test metrics
-│-- results/
-│   ├── metrics_comparison.csv
-│   └── classification_reports.txt
-└── .streamlit/config.toml    # app theme
+bc-classifier-app/
+|-- app.py                      # Streamlit app
+|-- train_models.py             # trains, tunes, evaluates and saves the 5 models
+|-- data_utils.py               # loads the dataset (UCI online, else local copy)
+|-- ML_Assignment2_Colab.ipynb  # notebook used for the run on BITS Virtual Lab (Colab)
+|-- requirements.txt
+|-- README.md
+|-- test_data.csv               # 20% test data (30 features + diagnosis)
+|-- data/wdbc.csv               # local copy of the full dataset
+|-- model/                      # saved models
+|   |-- logistic_regression.pkl
+|   |-- decision_tree.pkl
+|   |-- knn.pkl
+|   |-- naive_bayes.pkl
+|   |-- svm.pkl
+|   `-- metadata.json           # feature names, best hyper-parameters, test scores
+|-- results/                    # metrics table, classification reports, training log
+`-- .streamlit/config.toml      # app colours
 ```
 
 ## d. Models used
 
-All five models were trained on the same training split and evaluated on the same 114-row test set.
-Positive class = **Malignant**.
+All five models were trained on the same training data and tested on the same 114 test rows. Malignant is taken as the positive class.
 
 | Model | Pipeline | Best hyper-parameters (5-fold CV) |
 |---|---|---|
@@ -103,7 +86,7 @@ Positive class = **Malignant**.
 | Support Vector Machine | 0.9737 | 0.9927 | 1.0000 | 0.9286 | 0.9630 | 0.9442 |
 <!-- METRICS_TABLE_END -->
 
-Confusion matrices on the test set (72 Benign, 42 Malignant):
+Confusion matrix values on the test set (72 Benign, 42 Malignant):
 
 | Model | TN | FP | FN (missed cancers) | TP |
 |---|---|---|---|---|
@@ -126,13 +109,13 @@ Confusion matrices on the test set (72 Benign, 42 Malignant):
 
 ## e. Streamlit app features
 
-- **Dataset upload (CSV)** – upload test data in the sidebar; if nothing is uploaded the bundled `test_data.csv` is used, and it can be downloaded as a template.
-- **Model selection dropdown** – choose any of the 5 saved models.
-- **Evaluation metrics** – Accuracy, AUC, Precision, Recall, F1 and MCC for the selected model.
+- **Upload test data (CSV):** test data can be uploaded from the sidebar. If no file is uploaded, the app uses the `test_data.csv` from the repo, and this file can also be downloaded from the sidebar to use as a sample.
+- **Model selection dropdown:** any of the 5 saved models can be selected.
+- **Evaluation metrics:** Accuracy, AUC, Precision, Recall, F1 and MCC are shown for the selected model.
 - **Confusion matrix and classification report** for the selected model.
-- **Compare all 5 models** – metrics table with best values highlighted, bar chart, ROC curves and the winner on the uploaded data.
-- **Predictions** – row-level actual vs predicted, filter to misclassified rows, CSV download.
-- Input validation (missing columns, non-numeric values, M/B or 1/0 labels). The app only **loads** the saved models – it never retrains on the uploaded data.
+- **Compare all 5 models:** one table with all metrics (best values highlighted), a bar chart, ROC curves and the best model on the uploaded data.
+- **Predictions:** actual vs predicted for every row, option to show only wrong predictions, and CSV download.
+- The app checks the uploaded file (missing columns, non-numeric values, labels as M/B or 1/0). It only **loads** the saved models and never trains on the uploaded data.
 
 ## f. How to run locally
 
@@ -140,6 +123,6 @@ Confusion matrices on the test set (72 Benign, 42 Malignant):
 python -m venv .venv
 .venv\Scripts\activate            # Windows  (macOS/Linux: source .venv/bin/activate)
 pip install -r requirements.txt
-python train_models.py            # re-train (add --offline to skip the internet)
+python train_models.py            # train again (add --offline to skip the internet)
 streamlit run app.py              # opens http://localhost:8501
 ```
