@@ -1,0 +1,118 @@
+{
+  "dataset": "UCI Breast Cancer Wisconsin (Diagnostic) - id 17",
+  "data_source_used": "UCI ML Repository (ucimlrepo, id=17)",
+  "feature_columns": [
+    "radius_mean",
+    "texture_mean",
+    "perimeter_mean",
+    "area_mean",
+    "smoothness_mean",
+    "compactness_mean",
+    "concavity_mean",
+    "concave_points_mean",
+    "symmetry_mean",
+    "fractal_dimension_mean",
+    "radius_se",
+    "texture_se",
+    "perimeter_se",
+    "area_se",
+    "smoothness_se",
+    "compactness_se",
+    "concavity_se",
+    "concave_points_se",
+    "symmetry_se",
+    "fractal_dimension_se",
+    "radius_worst",
+    "texture_worst",
+    "perimeter_worst",
+    "area_worst",
+    "smoothness_worst",
+    "compactness_worst",
+    "concavity_worst",
+    "concave_points_worst",
+    "symmetry_worst",
+    "fractal_dimension_worst"
+  ],
+  "target_column": "diagnosis",
+  "class_names": {
+    "0": "Benign",
+    "1": "Malignant"
+  },
+  "positive_class": "Malignant (1)",
+  "models": {
+    "Logistic Regression": "logistic_regression.pkl",
+    "Decision Tree": "decision_tree.pkl",
+    "KNN": "knn.pkl",
+    "Naive Bayes": "naive_bayes.pkl",
+    "Support Vector Machine": "svm.pkl"
+  },
+  "best_params": {
+    "Logistic Regression": {
+      "C": 1
+    },
+    "Decision Tree": {
+      "criterion": "entropy",
+      "max_depth": 4,
+      "min_samples_leaf": 1
+    },
+    "KNN": {
+      "n_neighbors": 3,
+      "weights": "uniform"
+    },
+    "Naive Bayes": {
+      "var_smoothing": 1e-09
+    },
+    "Support Vector Machine": {
+      "C": 10,
+      "gamma": "scale"
+    }
+  },
+  "test_metrics": {
+    "Logistic Regression": {
+      "Accuracy": 0.9649,
+      "AUC": 0.996,
+      "Precision": 0.975,
+      "Recall": 0.9286,
+      "F1": 0.9512,
+      "MCC": 0.9245
+    },
+    "Decision Tree": {
+      "Accuracy": 0.9298,
+      "AUC": 0.9431,
+      "Precision": 1.0,
+      "Recall": 0.8095,
+      "F1": 0.8947,
+      "MCC": 0.8536
+    },
+    "KNN": {
+      "Accuracy": 0.9386,
+      "AUC": 0.9825,
+      "Precision": 0.973,
+      "Recall": 0.8571,
+      "F1": 0.9114,
+      "MCC": 0.8688
+    },
+    "Naive Bayes": {
+      "Accuracy": 0.9386,
+      "AUC": 0.9934,
+      "Precision": 1.0,
+      "Recall": 0.8333,
+      "F1": 0.9091,
+      "MCC": 0.8715
+    },
+    "Support Vector Machine": {
+      "Accuracy": 0.9737,
+      "AUC": 0.9927,
+      "Precision": 1.0,
+      "Recall": 0.9286,
+      "F1": 0.963,
+      "MCC": 0.9442
+    }
+  },
+  "train_rows": 455,
+  "test_rows": 114,
+  "random_state": 42,
+  "sklearn_version": "1.9.1",
+  "python_version": "3.14.7",
+  "trained_at": "2026-10-29T13:40:42"
+}
