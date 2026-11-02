@@ -117,12 +117,4 @@ Confusion matrix values on the test set (72 Benign, 42 Malignant):
 - **Predictions:** actual vs predicted for every row, option to show only wrong predictions, and CSV download.
 - The app checks the uploaded file (missing columns, non-numeric values, labels as M/B or 1/0). It only **loads** the saved models and never trains on the uploaded data.
 
-## f. How to run locally
 
-```bash
-python -m venv .venv
-.venv\Scripts\activate            # Windows  (macOS/Linux: source .venv/bin/activate)
-pip install -r requirements.txt
-python train_models.py            # train again (add --offline to skip the internet)
-streamlit run app.py              # opens http://localhost:8501
-```
