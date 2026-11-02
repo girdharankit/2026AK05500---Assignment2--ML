@@ -45,8 +45,8 @@ https://github.com/girdharankit/2026AK05500---Assignment2--ML
 bc-classifier-app/
 |-- app.py                      # Streamlit app
 |-- train_models.py             # trains, tunes, evaluates and saves the 5 models
-|-- data_utils.py               # loads the dataset (UCI online, else local copy)
-|-- ML_Assignment2_Colab.ipynb  # notebook used for the run on BITS Virtual Lab (Colab)
+|-- data_utils.py               # loads the dataset (UCI online)
+|-- ML_Assignment2_Colab.ipynb  
 |-- requirements.txt
 |-- README.md
 |-- test_data.csv               # 20% test data (30 features + diagnosis)
@@ -59,7 +59,7 @@ bc-classifier-app/
 |   |-- svm.pkl
 |   `-- metadata.json           # feature names, best hyper-parameters, test scores
 |-- results/                    # metrics table, classification reports, training log
-`-- .streamlit/config.toml      # app colours
+`-- .streamlit/config.toml      
 ```
 
 ## d. Models used
