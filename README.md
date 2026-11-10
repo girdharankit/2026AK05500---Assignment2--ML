@@ -21,8 +21,8 @@ For this problem I gave more importance to **Recall** for the malignant class an
 |---|---|
 | Name | Breast Cancer Wisconsin (Diagnostic) (WDBC) |
 | Source | UCI Machine Learning Repository, dataset id 17: https://archive.ics.uci.edu/dataset/17/breast+cancer+wisconsin+diagnostic |
-| Number of instances | **569** (assignment needs at least 500) |
-| Number of features | **30** numeric features (assignment needs at least 12). The ID column is not used. |
+| Number of instances | **569** 
+| Number of features | **30** numeric features 
 | Target column | `diagnosis`: **M = Malignant (1)**, **B = Benign (0)** |
 | Class distribution | 357 Benign (62.7%) and 212 Malignant (37.3%) |
 | Missing values | None |
